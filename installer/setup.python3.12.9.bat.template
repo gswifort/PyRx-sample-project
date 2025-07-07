@@ -1,0 +1,13 @@
+@echo off
+set global_python_path=%localappdata%\Programs\Python\Python312
+set global_python_exe=%global_python_path%\python.exe
+
+
+if not exist "%global_python_path%" (
+   curl "https://www.python.org/ftp/python/3.12.9/python-3.12.9-amd64.exe" -o "python-3.12.9-amd64.exe"
+   "python-3.12.9-amd64.exe" /passive AssociateFiles=0 AppendPath=1 Shortcuts=0 Include_doc=0 InstallLauncherAllUsers=0
+   del "python-3.12.9-amd64.exe"     
+)
+
+"%global_python_exe%" bootstrap.py {bootstrap_args}
+pause

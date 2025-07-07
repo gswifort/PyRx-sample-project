@@ -1,0 +1,33 @@
+(defun LoadPyRx ()
+  (setq acad-ver-string (strcat (strcase (getvar 'product) T) "-" (substr (vla-get-version (vlax-get-acad-object)) 1 4)))
+  
+  (cond
+    ((= acad-ver-string "autocad-24.0") (setq rx-file "{pyrx_dir}\\RxLoader24.0.arx"))
+    ((= acad-ver-string "autocad-24.1") (setq rx-file "{pyrx_dir}\\RxLoader24.1.arx"))
+    ((= acad-ver-string "autocad-24.2") (setq rx-file "{pyrx_dir}\\RxLoader24.2.arx"))
+    ((= acad-ver-string "autocad-24.3") (setq rx-file "{pyrx_dir}\\RxLoader24.3.arx"))
+    ((= acad-ver-string "autocad-25.0") (setq rx-file "{pyrx_dir}\\RxLoader25.0.arx"))
+    ((= acad-ver-string "autocad-25.1") (setq rx-file "{pyrx_dir}\\RxLoader25.1.arx"))
+    ((= acad-ver-string "zwcad-2024") (setq rx-file "{pyrx_dir}\\RxLoaderZ24.0.zrx"))
+    ((= acad-ver-string "zwcad-2025") (setq rx-file "{pyrx_dir}\\RxLoaderZ25.0.zrx"))
+    ((= acad-ver-string "zwcad-2026") (setq rx-file "{pyrx_dir}\\RxLoaderZ26.0.zrx"))
+    (t (setq rx-file nil))
+  )
+  
+  (if rx-file
+    (progn
+      (setq file-path (findfile rx-file))
+      (if file-path
+        (progn
+          (arxload file-path)
+          (princ (strcat "File loaded: " file-path))
+        )
+        (princ (strcat "File not found: " rx-file))
+      )
+    )
+    (princ "Unsupported product version")
+  )
+  (princ)
+)
+
+(LoadPyRx)
