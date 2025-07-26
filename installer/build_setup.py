@@ -103,7 +103,7 @@ class Setup:
         content = content.replace(
             "{bootstrap_args}",
             subprocess.list2cmdline(self.bootstrap_args).format(
-                whl_file=self.whl_file, **self.kwargs
+                whl_file=self.whl_file.name, **self.kwargs
             ),
         )
         setup_bat = self.archive_dir / "setup.bat"
@@ -139,13 +139,13 @@ class Setup:
         build_dir = self.build_dir
         archive_dir = self.archive_dir
         dist_dir = self.dist_dir
-        whl_file = self.build_whl()
+        whl_file = self.whl_file
         setup_bat = self.create_setup_bat()
         installer_cfg = self.create_installer_cfg(setup_bat.name)
         assert whl_file.parent == archive_dir, (
             f"File {whl_file} is not in the archive directory {archive_dir}"
         )
-
+        
         # Create the archive
         archive_7z = build_dir / "archive.7z"
         cmd = [
@@ -190,6 +190,7 @@ class Setup:
             if dir_.exists():
                 shutil.rmtree(dir_)
             dir_.mkdir(parents=True)
+        self.build_whl()
         self.copy_files()
         return self.create_sfx_installer()
 
@@ -200,12 +201,13 @@ if __name__ == "__main__":
             BASE_DIR / "bootstrap.py",
             BASE_DIR / "pip.ini.template",
             BASE_DIR / "loader.lsp.template",
+            BASE_DIR / "loader.py",
         ],
         bootstrap_args=(
             "%localappdata%\\Programs\\PyRx-sample-project",  # install_dir
             "{whl_file}",
             "--onload_file",
-            str(BASE_DIR / "loader.py"),
+            "loader.py",
         ),
     )
     setup_exe = setup.build()
