@@ -7,13 +7,13 @@ from .rect import create_rectangle
 def _():
     status, width = Ed.Editor.getDouble(
         "\nWidth: ",
-        Ed.PromptCondition(Ed.PromptCondition.eNoEmpty | Ed.PromptCondition.eNoNegitive),
+        Ed.PromptCondition(Ed.PromptCondition.eNoEmpty | Ed.PromptCondition.eNoNegative),
     )
     if not status == Ed.PromptStatus.eOk:
         return
     status, height = Ed.Editor.getDouble(
         "\nHeight: ",
-        Ed.PromptCondition(Ed.PromptCondition.eNoEmpty | Ed.PromptCondition.eNoNegitive),
+        Ed.PromptCondition(Ed.PromptCondition.eNoEmpty | Ed.PromptCondition.eNoNegative),
     )
     if not status == Ed.PromptStatus.eOk:
         return
